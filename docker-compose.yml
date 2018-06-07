@@ -1,0 +1,67 @@
+# ==========
+# UP section
+# ==========
+
+# docker-compose up dev
+dev:
+  build: .
+  tty: true
+  ports:
+   - 300:5000 # also configured in config/server.js
+  volumes:
+    - .:/srv/app
+  env_file:
+    - .env
+  command: ["/bin/bash", "-c", "npm run start:dev"]
+
+# docker-compose up dev-watch
+dev-watch:
+  build: .
+  tty: true
+  ports:
+   - 300:5000 # also configured in config/server.js
+  volumes:
+    - .:/srv/app
+  env_file:
+    - .env
+  command: ["/bin/bash", "-c", "npm run start:dev-watch"]
+
+# docker-compose up prod
+prod:
+  build: .
+  tty: true
+  ports:
+    - 300:5000 # also configured in config/server.js
+  volumes:
+    - .:/srv/app
+  env_file:
+    - .env
+  command: "bash -c 'npm run start:prod'"
+
+# ===========
+# RUN section
+# ===========
+
+# docker-compose run build-project
+build-project:
+  image: node:9
+  volumes:
+    - .:/srv/app
+    - ~/.ssh:/root/.ssh
+  env_file:
+    - .env
+  working_dir: /srv/app
+  command: "bash -c 'docker/build-project.sh ${ENV}'"
+
+# docker-compose run shell
+shell:
+  image: node:9
+  volumes:
+    - .:/srv/app
+    - ~/.ssh:/root/.ssh
+  env_file:
+    - .env
+  working_dir: /srv/app
+  entrypoint: ["/bin/bash"]
+  stdin_open: true
+  tty: true

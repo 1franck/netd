@@ -1,0 +1,9 @@
+# folders
+/.idea
+/node_modules
+/dist
+
+# files
+/config.js
+/.env
+/package-lock.json
