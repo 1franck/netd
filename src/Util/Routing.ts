@@ -6,7 +6,6 @@ let debug = debugModule("routing");
 
 export class Routing
 {
-
     private defaultMethod: string = "all";
     private defaultControllerAction: string = "handleAction";
 

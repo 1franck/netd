@@ -1,8 +1,8 @@
 var mySqlDriver = require('mysql'),
     debug = require('debug')('mysql');
 
-export class MySQL {
-
+export class MySQL
+{
     /**
      * MySql connections pool
      */
@@ -34,19 +34,19 @@ export class MySQL {
         /**
          * Pool events
          */
-        this.pool.on('acquire', function (connection: any) {
+        this.pool.on('acquire', (connection: any) => {
             debug('Connection %d acquired', connection.threadId);
         });
 
-        this.pool.on('connection', function (connection: any) {
+        this.pool.on('connection', (connection: any) => {
             connection.query('SET SESSION auto_increment_increment=1')
         });
 
-        this.pool.on('enqueue', function () {
+        this.pool.on('enqueue', () => {
             debug('Waiting for available connection slot');
         });
 
-        this.pool.on('release', function (connection: any) {
+        this.pool.on('release', (connection: any) => {
             debug('Connection %d released', connection.threadId);
         });
 
@@ -58,8 +58,9 @@ export class MySQL {
      * @param callbackSuccess
      * @param callbackError
      */
-    public getConnection(callbackSuccess: any, callbackError: any) {
-        this.pool.getConnection(function(err: any, connection: any) {
+    public getConnection(callbackSuccess: any, callbackError: any)
+    {
+        this.pool.getConnection((err: any, connection: any) => {
             if (err) {
                 callbackError(err);
             } else {
@@ -74,7 +75,8 @@ export class MySQL {
      * @param callbackSuccess
      * @param callbackError
      */
-    query(query: string, callbackSuccess: any, callbackError: any) {
+    public query(query: string, callbackSuccess: any, callbackError: any)
+    {
         this.getConnection((conn: any) => {
             conn.query(query, (error: any, results: any, fields: any) => {
                 // And done with the connection.
