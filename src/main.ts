@@ -26,10 +26,10 @@ if (multiThread.isStarted()) {
     });
 
     // send 404 to unknown routes
-    app.get('*', (reqquest: any, response: any) => {
+    app.get('*', (request: any, response: any) => {
         response.status(404).send('Not Found');
     });
 
     app.listen(config.server.port, '0.0.0.0');
-    debug('App started on pid #' + process.pid + ', port ' + config.server.port);
+    console.info('App started on pid #' + process.pid + ', port ' + config.server.port);
 }
