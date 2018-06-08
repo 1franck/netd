@@ -16,3 +16,8 @@
 
  - Access to container shell
     > $ docker-compose run shell
+    
+## Tips
+
+-   In production, don't forget to switch environment variable `NODE_ENV` to `production`. This can have a big impact on performance.
+
