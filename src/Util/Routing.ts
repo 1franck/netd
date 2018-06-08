@@ -1,14 +1,53 @@
-'use strict';
+"use strict";
 
-import * as debugModule from 'debug';
-let debug = debugModule('routing');
+import * as debugModule from "debug";
+import {Response} from "express";
+let debug = debugModule("routing");
 
-export class Routing {
+export class Routing
+{
 
-    private defaultMethod: string = 'all';
-    private defaultControllerAction: string = 'handle';
+    private defaultMethod: string = "all";
+    private defaultControllerAction: string = "handleAction";
 
     constructor(private app: any) {}
+
+    /**
+     * Register a new route for express
+     * @param route {{path: string, method: string, controller: string, action: string}}
+     */
+    public register(route: any)
+    {
+        route = this.processRoute(route);
+
+        this.app[route.method](route.path, (request: any, response: any) => {
+
+            const controller = this.loadController(route, request, response);
+
+            if (!controller[route.action]) {
+                this.errorControllerActionNotFound(controller, route.action, response);
+            } else {
+                debug("Calling " + controller.constructor.name + "::" + route.action + "() for request " + request.originalUrl);
+                controller[route.action]();
+            }
+        });
+    }
+
+    /**
+     * @param {string} methodName
+     */
+    public setDefaultMethod(methodName: string)
+    {
+        this.defaultMethod = methodName;
+    }
+
+    /**
+     * @param {string} actionName
+     */
+    public setDefaultControllerAction(actionName: string)
+    {
+        this.defaultControllerAction = actionName;
+    }
 
     /**
      * @param route
@@ -47,14 +86,14 @@ export class Routing {
      * @param processedRoute
      * @param response
      */
-    private errorControllerActionNotFound(controller: any, processedRoute: any, response: any)
+    private errorControllerActionNotFound(controller: object, action: string, response: Response)
     {
-        let msg = processedRoute.controllerName + ' has no action named ' + processedRoute.action;
+        let msg = controller.constructor.name + " has no action named " + action;
         debug(msg);
-        if (this.app.settings.env === 'development') {
+        if (this.app.settings.env === "development") {
             response.status(500).send(msg);
         } else {
-            response.status(500).send('Something broke!');
+            response.status(500).send("Something broke!");
         }
     }
 
@@ -66,44 +105,8 @@ export class Routing {
      */
     private loadController(processedRoute: any, request: any, response: any): any
     {
-        let controllerClass = require('./../' + processedRoute.controller);
+        let controllerClass = require("./../" + processedRoute.controller);
         return new controllerClass(request, response);
     }
 
-    /**
-     * Register a new route for express
-     * @param route {{path: string, method: string, controller: string, action: string}}
-     */
-    public register(route: any)
-    {
-        route = this.processRoute(route);
-
-        this.app[route.method](route.path, (request: any, response: any) => {
-
-            const controller = this.loadController(route, request, response);
-
-            if (!controller[route.action]) {
-                this.errorControllerActionNotFound(controller, route, response);
-            } else {
-                debug('Calling ' + controller.constructor.name + '::' + route.action + '() for request ' + request.originalUrl);
-                controller[route.action]();
-            }
-        });
-    }
-
-    /**
-     * @param {string} methodName
-     */
-    setDefaultMethod(methodName: string)
-    {
-        this.defaultMethod = methodName;
-    }
-
-    /**
-     * @param {string} actionName
-     */
-    setDefaultControllerAction(actionName: string)
-    {
-        this.defaultControllerAction = actionName;
-    }
 }

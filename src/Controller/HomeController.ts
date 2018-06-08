@@ -4,9 +4,11 @@ import {AbstractController} from "./AbstractController";
 
 class HomeController extends AbstractController {
 
-    public handle()
+    public handleAction()
     {
-        this.response.status(200).send('Welcome');
+        this.response
+            .status(200)
+            .send('Welcome');
     }
 }
 
