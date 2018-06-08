@@ -1,5 +1,10 @@
 # NodeJS 9 + Express 4 + TypeScript + Docker
 
+  - manageable and simple configuration
+  - easy and clean structure of controller / action
+  - multi-threads ready 
+  - mysql ready
+         
 ## Installion & Configuration
 
 1. Copy file `.env.dist` to `.env`
