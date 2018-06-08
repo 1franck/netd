@@ -4,9 +4,10 @@ import * as express from "express";
 import * as debugModule from 'debug';
 import * as helmet from "helmet";
 import * as compression from "compression";
-import multiThread from "./Util/MultiThread";
-import {config} from "./config";
+import {Request, Response} from "express";
 import {Routing} from "./Util/Routing";
+import {config} from "./config";
+import multiThread from "./Util/MultiThread";
 
 var debug = debugModule('main'),
     app = express(),
@@ -26,8 +27,9 @@ if (multiThread.isStarted()) {
     });
 
     // send 404 to unknown routes
-    app.get('*', (request: any, response: any) => {
+    app.get('*', (request: Request, response: Response) => {
         response.status(404).send('Not Found');
+        debug('[404] ' + request.originalUrl);
     });
 
     app.listen(config.server.port, '0.0.0.0');
