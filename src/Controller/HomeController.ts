@@ -2,8 +2,8 @@
 
 import {AbstractController} from "./AbstractController";
 
-class HomeController extends AbstractController {
-
+class HomeController extends AbstractController
+{
     public handleAction()
     {
         this.response

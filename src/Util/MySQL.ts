@@ -22,7 +22,6 @@ export class MySQL
             database : configuration.database,
             charset : configuration.charset,
         });
-
         this.bindPoolEvents();
     }
 
@@ -31,9 +30,6 @@ export class MySQL
      */
     private bindPoolEvents(): void
     {
-        /**
-         * Pool events
-         */
         this.pool.on('acquire', (connection: any) => {
             debug('Connection %d acquired', connection.threadId);
         });
@@ -49,9 +45,7 @@ export class MySQL
         this.pool.on('release', (connection: any) => {
             debug('Connection %d released', connection.threadId);
         });
-
     }
-
 
     /**
      * Retrieve a connection form the pool
