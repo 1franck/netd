@@ -10,7 +10,7 @@ export abstract class AbstractController
      * @param {e.Response} response
      * @param next
      */
-    constructor(protected request: Request, protected response: Response, next: any) {}
+    constructor(protected request: Request, protected response: Response, protected next: any) {}
 
     /**
      * Send error
