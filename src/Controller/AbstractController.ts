@@ -2,9 +2,15 @@
 
 import {Request, Response} from "express";
 
-export abstract class AbstractController {
-
-    constructor(protected request: Request, protected response: Response) {}
+export abstract class AbstractController
+{
+    /**
+     * Constructor
+     * @param {e.Request} request
+     * @param {e.Response} response
+     * @param next
+     */
+    constructor(protected request: Request, protected response: Response, next: any) {}
 
     /**
      * Send error
@@ -13,9 +19,11 @@ export abstract class AbstractController {
      */
     protected sendError(code: number = 500, msg: string = "Something broke")
     {
-        this.response.status(code).json({
-            "errorMessage": msg
-        });
+        this.response
+            .status(code)
+            .json({
+                "errorMessage": msg
+            });
     }
 
     /**
@@ -25,4 +33,4 @@ export abstract class AbstractController {
     {
         this.sendError(404, "Page not found");
     }
-};
+}

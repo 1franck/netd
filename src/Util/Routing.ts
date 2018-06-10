@@ -9,6 +9,10 @@ export class Routing
     private defaultMethod: string = "all";
     private defaultControllerAction: string = "handleAction";
 
+    /**
+     * Constructor
+     * @param app
+     */
     constructor(private app: any) {}
 
     /**
@@ -19,9 +23,9 @@ export class Routing
     {
         route = this.processRoute(route);
 
-        this.app[route.method](route.path, (request: any, response: any) => {
+        this.app[route.method](route.path, (request: any, response: any, next: any) => {
 
-            const controller = this.loadController(route, request, response);
+            const controller = this.loadController(route, request, response, next);
 
             if (!controller[route.action]) {
                 this.errorControllerActionNotFound(controller, route.action, response);
@@ -100,12 +104,12 @@ export class Routing
      * @param processedRoute
      * @param request
      * @param response
+     * @param next
      * @returns {any}
      */
-    private loadController(processedRoute: any, request: any, response: any): any
+    private loadController(processedRoute: any, request: any, response: any, next: any): any
     {
         let controllerClass = require("./../" + processedRoute.controller);
-        return new controllerClass(request, response);
+        return new controllerClass(request, response, next);
     }
-
 }
