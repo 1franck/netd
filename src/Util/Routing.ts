@@ -1,18 +1,13 @@
-"use strict";
+'use strict';
 
-import * as debugModule from "debug";
-import {Response} from "express";
-let debug = debugModule("routing");
+import * as debugModule from 'debug';
+let debug = debugModule('Routing');
 
-export class Routing
-{
-    private defaultMethod: string = "all";
-    private defaultControllerAction: string = "handleAction";
+export class Routing {
 
-    /**
-     * Constructor
-     * @param app
-     */
+    private defaultMethod: string = 'all';
+    private defaultControllerAction: string = 'handle';
+
     constructor(private app: any) {}
 
     /**
@@ -28,9 +23,9 @@ export class Routing
             const controller = this.loadController(route, request, response, next);
 
             if (!controller[route.action]) {
-                this.errorControllerActionNotFound(controller, route.action, response);
+                this.errorControllerActionNotFound(controller, route, response);
             } else {
-                debug("Calling " + controller.constructor.name + "::" + route.action + "() for request " + request.originalUrl);
+                debug('Calling ' + controller.constructor.name + '::' + route.action + '() for request ' + request.originalUrl);
                 controller[route.action]();
             }
         });
@@ -63,24 +58,19 @@ export class Routing
 
     /**
      * @param route
-     * @returns {string}
-     */
-    private getControllerAction(route: any)
-    {
-        return route.action === undefined ? this.defaultControllerAction : route.action
-    }
-
-    /**
-     * @param route
      * @returns {{path: string, method: string, controller: string, action: string}}
      */
     private processRoute(route: any): any
     {
+        let handler = route.handler.split("::"),
+            controller = handler[0] + ".ts",
+            action = handler[1] === undefined ? this.defaultControllerAction : handler[1];
+
         return {
             path: route.path,
             method: this.getMethod(route),
-            controller: route.controller,
-            action: this.getControllerAction(route),
+            controller: controller,
+            action: action,
         };
     }
 
@@ -89,14 +79,14 @@ export class Routing
      * @param processedRoute
      * @param response
      */
-    private errorControllerActionNotFound(controller: object, action: string, response: Response)
+    private errorControllerActionNotFound(controller: any, processedRoute: any, response: any)
     {
-        let msg = controller.constructor.name + " has no action named " + action;
+        let msg = controller.constructor.name + ' has no action named ' + processedRoute.action;
         debug(msg);
-        if (this.app.settings.env === "development") {
+        if (this.app.settings.env === 'development') {
             response.status(500).send(msg);
         } else {
-            response.status(500).send("Something broke!");
+            response.status(500).send('Something broke!');
         }
     }
 
@@ -104,12 +94,11 @@ export class Routing
      * @param processedRoute
      * @param request
      * @param response
-     * @param next
      * @returns {any}
      */
     private loadController(processedRoute: any, request: any, response: any, next: any): any
     {
-        let controllerClass = require("./../" + processedRoute.controller);
+        let controllerClass = require('./../' + processedRoute.controller);
         return new controllerClass(request, response, next);
     }
 }
