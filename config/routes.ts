@@ -4,6 +4,6 @@ export const routes = [
     {
         path: '/',
         method: 'get',
-        handler: 'Controller/HomeController::handle',
+        handler: 'Controller/HomeController::handleAction',
     },
 ]
