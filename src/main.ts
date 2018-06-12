@@ -9,12 +9,12 @@ import {Routing} from "./Util/Routing";
 import {config} from "./config";
 import multiThread from "./Util/MultiThread";
 
-var debug = debugModule('main'),
+let debug = debugModule('main'),
     app = express(),
     routing = new Routing(app);
 
 app.use(helmet()); // for security headers
-app.use(compression()) // for gzip compression
+app.use(compression()); // for gzip compression
 
 /**
  * Start the hole thing
