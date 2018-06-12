@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 export const redis = {
     host: process.env.REDIS_HOST,

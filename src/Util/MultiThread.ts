@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 import * as debugModule from "debug";
 import * as cluster from "cluster";
 import * as os from "os";
 
-let debug = debugModule('MultiThread');
+let debug = debugModule("MultiThread");
 
 /**
  * Fork the process to use all machine cpus
@@ -15,12 +15,12 @@ export default (function() {
         started = false;
 
     if (cluster.isMaster) {
-        cluster.on('fork',  (worker: any) => {
-            debug('Spawned worker with pid %s', worker.process.pid);
+        cluster.on("fork",  (worker: any) => {
+            debug("Spawned worker with pid %s", worker.process.pid);
         });
 
-        cluster.on('exit',  (worker: any, code: any, signal: any) => {
-            debug('Worker with pid %s died with exit code %s and signal %s', worker.process.pid, code, signal);
+        cluster.on("exit",  (worker: any, code: any, signal: any) => {
+            debug("Worker with pid %s died with exit code %s and signal %s", worker.process.pid, code, signal);
             cluster.fork();
         });
 

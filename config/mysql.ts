@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 export const mysql = {
     host: process.env.WPDB_HOST,

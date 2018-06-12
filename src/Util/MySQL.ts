@@ -1,5 +1,7 @@
-let mySqlDriver = require('mysql'),
-    debug = require('debug')('MySQL');
+"use strict";
+
+let mySqlDriver = require("mysql"),
+    debug = require("debug")("MySQL");
 
 export class MySQL
 {
@@ -30,20 +32,20 @@ export class MySQL
      */
     private bindPoolEvents(): void
     {
-        this.pool.on('acquire', (connection: any) => {
-            debug('Connection %d acquired', connection.threadId);
+        this.pool.on("acquire", (connection: any) => {
+            debug("Connection %d acquired", connection.threadId);
         });
 
-        this.pool.on('connection', (connection: any) => {
-            connection.query('SET SESSION auto_increment_increment=1')
+        this.pool.on("connection", (connection: any) => {
+            connection.query("SET SESSION auto_increment_increment=1")
         });
 
-        this.pool.on('enqueue', () => {
-            debug('Waiting for available connection slot');
+        this.pool.on("enqueue", () => {
+            debug("Waiting for available connection slot");
         });
 
-        this.pool.on('release', (connection: any) => {
-            debug('Connection %d released', connection.threadId);
+        this.pool.on("release", (connection: any) => {
+            debug("Connection %d released", connection.threadId);
         });
     }
 

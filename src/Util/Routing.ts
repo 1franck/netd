@@ -1,12 +1,11 @@
-'use strict';
+"use strict";
 
-import * as debugModule from 'debug';
-let debug = debugModule('Routing');
+let debug = require("debug")("Routing");
 
 export class Routing {
 
-    private defaultMethod: string = 'all';
-    private defaultControllerAction: string = 'handle';
+    private defaultMethod: string = "all";
+    private defaultControllerAction: string = "handle";
 
     constructor(private app: any) {}
 
@@ -25,7 +24,7 @@ export class Routing {
             if (!controller[route.action]) {
                 this.errorControllerActionNotFound(controller, route, response);
             } else {
-                debug('Calling ' + controller.constructor.name + '::' + route.action + '() for request ' + request.originalUrl);
+                debug("Calling " + controller.constructor.name + "::" + route.action + "() for request " + request.originalUrl);
                 controller[route.action]();
             }
         });
@@ -81,12 +80,12 @@ export class Routing {
      */
     private errorControllerActionNotFound(controller: any, processedRoute: any, response: any)
     {
-        let msg = controller.constructor.name + ' has no action named ' + processedRoute.action;
+        let msg = controller.constructor.name + " has no action named " + processedRoute.action;
         debug(msg);
-        if (this.app.settings.env === 'development') {
+        if (this.app.settings.env === "development") {
             response.status(500).send(msg);
         } else {
-            response.status(500).send('Something broke!');
+            response.status(500).send("Something broke!");
         }
     }
 
@@ -98,7 +97,7 @@ export class Routing {
      */
     private loadController(processedRoute: any, request: any, response: any, next: any): any
     {
-        let controllerClass = require('./../' + processedRoute.controller);
+        let controllerClass = require("./../" + processedRoute.controller);
         return new controllerClass(request, response, next);
     }
 }

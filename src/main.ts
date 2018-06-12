@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import * as express from "express";
 import * as debugModule from 'debug';
@@ -9,7 +9,7 @@ import {Routing} from "./Util/Routing";
 import {config} from "./config";
 import multiThread from "./Util/MultiThread";
 
-let debug = debugModule('main'),
+let debug = debugModule("main"),
     app = express(),
     routing = new Routing(app);
 
@@ -27,11 +27,11 @@ if (multiThread.isStarted()) {
     });
 
     // send 404 to unknown routes
-    app.get('*', (request: Request, response: Response) => {
-        response.status(404).send('Not Found');
-        debug('[404] ' + request.originalUrl);
+    app.get("*", (request: Request, response: Response) => {
+        response.status(404).send("Not Found");
+        debug("[404] " + request.originalUrl);
     });
 
-    app.listen(config.server.port, '0.0.0.0');
-    console.info('App started on pid #' + process.pid + ', port ' + config.server.port);
+    app.listen(config.server.port, "0.0.0.0");
+    console.info("App started on pid #" + process.pid + ", port " + config.server.port);
 }

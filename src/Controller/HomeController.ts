@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import {AbstractController} from "./AbstractController";
 
@@ -8,7 +8,7 @@ class HomeController extends AbstractController
     {
         this.response
             .status(200)
-            .send('Welcome');
+            .send("Welcome");
     }
 }
 
