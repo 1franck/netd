@@ -1,5 +1,5 @@
-var mySqlDriver = require('mysql'),
-    debug = require('debug')('mysql');
+let mySqlDriver = require('mysql'),
+    debug = require('debug')('MySQL');
 
 export class MySQL
 {

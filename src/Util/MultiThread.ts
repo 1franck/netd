@@ -4,7 +4,7 @@ import * as debugModule from "debug";
 import * as cluster from "cluster";
 import * as os from "os";
 
-let debug = debugModule('cluster');
+let debug = debugModule('MultiThread');
 
 /**
  * Fork the process to use all machine cpus
