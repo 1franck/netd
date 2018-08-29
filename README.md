@@ -1,11 +1,12 @@
-# NodeJS 9 + Express 4 + TypeScript + Docker
+# NodeJS 8 + Express 4 + TypeScript + Docker
 
   - manageable and simple configuration
   - easy and clean structure of controller / action
   - multi-threads ready 
+  - redis ready
   - mysql ready
          
-## Installion & Configuration
+## Installation & Configuration
 
 1. Copy file `.env.dist` to `.env`
 2. Run `$ docker-compose build-project`
@@ -14,13 +15,17 @@
     > $ docker-compose up dev
   - run your app `.ts` files directly and nodemon will watch you file changes and reload the app
     > $ docker-compose up dev-watch
-  - compile all your app `.ts` files into one app `.js` file and run it. 
+  - install dependencies and compile your app `src/*.ts` files to `dist/src/*.js` files. 
+    > $ docker-compose run build-prod
+  - run compiled prod app
     > $ docker-compose up prod
 
 ## Other docker-compose commands
 
  - Access to container shell
     > $ docker-compose run shell
+ - Run tests
+    > $ docker-compose run tests   
     
 ## Tips
 
