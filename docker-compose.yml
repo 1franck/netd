@@ -7,7 +7,7 @@ dev:
   build: .
   tty: true
   ports:
-   - 300:5000 # also configured in config/server.js
+   - 310:5000
   volumes:
     - .:/srv/app
   env_file:
@@ -19,7 +19,7 @@ dev-watch:
   build: .
   tty: true
   ports:
-   - 300:5000 # also configured in config/server.js
+   - 310:5000
   volumes:
     - .:/srv/app
   env_file:
@@ -31,7 +31,7 @@ prod:
   build: .
   tty: true
   ports:
-    - 300:5000 # also configured in config/server.js
+    - 310:5000
   volumes:
     - .:/srv/app
   env_file:
@@ -42,23 +42,32 @@ prod:
 # RUN section
 # ===========
 
-# docker-compose run build-project
-build-project:
-  image: node:9
+# docker-compose run tests
+tests:
+  build: .
+  tty: true
+  volumes:
+  - .:/srv/app
+  env_file:
+  - .env
+  environment:
+  - ENV=test
+  - DEBUG=
+  command: "bash -c 'npm run tests'"
+
+# docker-compose run build-prod
+build-prod:
+  build: .
+  tty: true
   volumes:
     - .:/srv/app
-    - ~/.ssh:/root/.ssh
-  env_file:
-    - .env
-  working_dir: /srv/app
-  command: "bash -c 'docker/build-project.sh ${ENV}'"
+  command: "bash -c 'npm run build:prod'"
 
 # docker-compose run shell
 shell:
   image: node:9
   volumes:
     - .:/srv/app
-    - ~/.ssh:/root/.ssh
   env_file:
     - .env
   working_dir: /srv/app

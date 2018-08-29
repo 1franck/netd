@@ -1,10 +1,8 @@
-"use strict";
+var mySqlDriver = require("mysql"),
+    debug = require("debug")("Util:MySQL");
 
-let mySqlDriver = require("mysql"),
-    debug = require("debug")("MySQL");
+export class MySQL {
 
-export class MySQL
-{
     /**
      * MySql connections pool
      */
@@ -23,7 +21,9 @@ export class MySQL
             password : configuration.password,
             database : configuration.database,
             charset : configuration.charset,
+            connectionLimit: 10,
         });
+
         this.bindPoolEvents();
     }
 
@@ -32,21 +32,25 @@ export class MySQL
      */
     private bindPoolEvents(): void
     {
-        this.pool.on("acquire", (connection: any) => {
-            debug("Connection %d acquired", connection.threadId);
+        /**
+         * Pool events
+         */
+        this.pool.on('acquire', (connection: any) => {
+            debug('Connection %d acquired', connection.threadId);
         });
 
-        this.pool.on("connection", (connection: any) => {
-            connection.query("SET SESSION auto_increment_increment=1")
+        this.pool.on('connection', (connection: any) => {
+            connection.query('SET SESSION auto_increment_increment=1')
         });
 
-        this.pool.on("enqueue", () => {
-            debug("Waiting for available connection slot");
+        this.pool.on('enqueue', () => {
+            debug('Waiting for available connection slot');
         });
 
-        this.pool.on("release", (connection: any) => {
-            debug("Connection %d released", connection.threadId);
+        this.pool.on('release', (connection: any) => {
+            debug('Connection %d released', connection.threadId);
         });
+
     }
 
     /**
@@ -54,8 +58,7 @@ export class MySQL
      * @param callbackSuccess
      * @param callbackError
      */
-    public getConnection(callbackSuccess: any, callbackError: any)
-    {
+    public getConnection(callbackSuccess: any, callbackError: any) {
         this.pool.getConnection((err: any, connection: any) => {
             if (err) {
                 callbackError(err);
@@ -67,14 +70,14 @@ export class MySQL
 
     /**
      * Wrap getConnection and query into one call
-     * @param query
+     * @param {string} query
+     * @param {Array<any>} binding
      * @param callbackSuccess
      * @param callbackError
      */
-    public query(query: string, callbackSuccess: any, callbackError: any)
-    {
+    query(query: string, binding: Array<any>, callbackSuccess: any, callbackError: any) {
         this.getConnection((conn: any) => {
-            conn.query(query, (error: any, results: any, fields: any) => {
+            conn.query(query, binding, (error: any, results: any, fields: any) => {
                 // And done with the connection.
                 conn.release();
                 // Handle error after the release.

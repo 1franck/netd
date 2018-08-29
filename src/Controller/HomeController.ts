@@ -2,14 +2,21 @@
 
 import {AbstractController} from "./AbstractController";
 
+let debug = require("debug")("Controller:HomeController");
+
+/**
+ * Class ResolverController
+ */
 class HomeController extends AbstractController
 {
+    /**
+     * Handle Action
+     */
     public handleAction()
     {
-        this.response
-            .status(200)
-            .send("Welcome");
+        this.response.send('Ok');
     }
 }
+
 
 module.exports = HomeController;
