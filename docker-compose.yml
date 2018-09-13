@@ -1,76 +1,71 @@
-# ==========
-# UP section
-# ==========
+version: "2"
+services:
 
-# docker-compose up dev
-dev:
-  build: .
-  tty: true
-  ports:
-   - 310:5000
-  volumes:
+  # docker-compose up dev
+  dev:
+    build: .
+    tty: true
+    ports:
+     - 310:5000
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .env
+    command: ["/bin/bash", "-c", "npm run start:dev"]
+
+  # docker-compose up watch
+  watch:
+    build: .
+    tty: true
+    ports:
+     - 310:5000
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .env
+    command: ["/bin/bash", "-c", "npm run start:dev-watch"]
+
+  # docker-compose up prod
+  prod:
+    build: .
+    tty: true
+    ports:
+      - 310:5000
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .env
+    command: "bash -c 'npm run start:prod'"
+
+  # docker-compose run tests
+  tests:
+    build: .
+    tty: true
+    volumes:
     - .:/srv/app
-  env_file:
+    env_file:
     - .env
-  command: ["/bin/bash", "-c", "npm run start:dev"]
+    environment:
+    - ENV=test
+    - DEBUG=
+    command: "bash -c 'npm run tests'"
 
-# docker-compose up dev-watch
-dev-watch:
-  build: .
-  tty: true
-  ports:
-   - 310:5000
-  volumes:
-    - .:/srv/app
-  env_file:
-    - .env
-  command: ["/bin/bash", "-c", "npm run start:dev-watch"]
+  # docker-compose run build-prod
+  build:
+    build: .
+    tty: true
+    volumes:
+      - .:/srv/app
+    command: "bash -c 'npm run build:prod'"
 
-# docker-compose up prod
-prod:
-  build: .
-  tty: true
-  ports:
-    - 310:5000
-  volumes:
-    - .:/srv/app
-  env_file:
-    - .env
-  command: "bash -c 'npm run start:prod'"
-
-# ===========
-# RUN section
-# ===========
-
-# docker-compose run tests
-tests:
-  build: .
-  tty: true
-  volumes:
-  - .:/srv/app
-  env_file:
-  - .env
-  environment:
-  - ENV=test
-  - DEBUG=
-  command: "bash -c 'npm run tests'"
-
-# docker-compose run build-prod
-build-prod:
-  build: .
-  tty: true
-  volumes:
-    - .:/srv/app
-  command: "bash -c 'npm run build:prod'"
-
-# docker-compose run shell
-shell:
-  image: node:9
-  volumes:
-    - .:/srv/app
-  env_file:
-    - .env
-  working_dir: /srv/app
-  entrypoint: ["/bin/bash"]
-  stdin_open: true
-  tty: true
+  # docker-compose run shell
+  shell:
+    image: node:9
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .env
+    working_dir: /srv/app
+    entrypoint: ["/bin/bash"]
+    stdin_open: true
+    tty: true
