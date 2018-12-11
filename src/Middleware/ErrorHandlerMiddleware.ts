@@ -1,5 +1,5 @@
-import {Request, Response} from "express";
-import {MiddlewareErrorHandlerInterface} from "../Util/Middleware/MiddlewareErrorHandlerInterface";
+import {Request, Response} from "express"
+import {MiddlewareErrorHandlerInterface} from "../Util/Middleware/MiddlewareErrorHandlerInterface"
 
 class ErrorHandlerMiddleware implements MiddlewareErrorHandlerInterface
 {
@@ -11,18 +11,17 @@ class ErrorHandlerMiddleware implements MiddlewareErrorHandlerInterface
      */
     public resolve(err: any, request: Request, response: Response, next: any): any
     {
-        let msg = "Something broke!";
+        let msg = "Something broke!"
         if (process.env.NODE_ENV === 'development') {
-            msg = err.toString();
+            msg = err.toString()
         } else {
-            console.error(err.stack);
+            console.error(err.stack)
         }
         response.status(500).json({
             "status": 500,
             "message": msg
-        });
-        next();
+        })
     }
 }
 
-module.exports = ErrorHandlerMiddleware;
+module.exports = ErrorHandlerMiddleware

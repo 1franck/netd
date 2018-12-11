@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
+import {Request, Response} from "express"
 
 export interface MiddlewareInterface
 {
-    resolve(request: Request, response: Response, next: any): any;
+    resolve(request: Request, response: Response, next: any): any
 }

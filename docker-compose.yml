@@ -1,12 +1,24 @@
-version: "2"
+version: '3.2'
+
 services:
+  # docker-compose run install
+  install:
+    build: .
+    tty: true
+    ports:
+      - 310:5000
+    volumes:
+      - .:/srv/app
+    env_file:
+      - .env
+    command: ["/bin/bash", "-c", "npm run build:dev"]
 
   # docker-compose up dev
   dev:
     build: .
     tty: true
     ports:
-     - 310:5000
+      - 310:5000
     volumes:
       - .:/srv/app
     env_file:
@@ -18,7 +30,7 @@ services:
     build: .
     tty: true
     ports:
-     - 310:5000
+      - 310:5000
     volumes:
       - .:/srv/app
     env_file:
@@ -42,15 +54,15 @@ services:
     build: .
     tty: true
     volumes:
-    - .:/srv/app
+      - .:/srv/app
     env_file:
-    - .env
+      - .env
     environment:
-    - ENV=test
-    - DEBUG=
+      - ENV=test
+      - DEBUG=
     command: "bash -c 'npm run tests'"
 
-  # docker-compose run build-prod
+  # docker-compose run build
   build:
     build: .
     tty: true

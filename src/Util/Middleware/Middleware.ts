@@ -1,9 +1,9 @@
-"use strict";
+"use strict"
 
-import {MiddlewareInterface} from "./MiddlewareInterface";
-import {MiddlewareErrorHandlerInterface} from "./MiddlewareErrorHandlerInterface";
+import {MiddlewareInterface} from "./MiddlewareInterface"
+import {MiddlewareErrorHandlerInterface} from "./MiddlewareErrorHandlerInterface"
 
-let debug = require("debug")("Util:Middleware:Middleware");
+let debug = require("debug")("Util:Middleware:Middleware")
 
 export class Middleware
 {
@@ -19,11 +19,11 @@ export class Middleware
     {
         if (typeof middlewareName === "string" || middlewareName instanceof String) {
             debug("Registering middle " + middlewareName);
-            const middleware = require("./../../" + middlewareName + ".ts");
-            const middlewareInstance = new middleware();
-            this.loadMiddleware(middlewareInstance);
+            const middleware = require("./../../" + middlewareName)
+            const middlewareInstance = new middleware()
+            this.loadMiddleware(middlewareInstance)
         } else if(typeof middlewareName === "function") {
-            this.app.use(middlewareName());
+            this.app.use(middlewareName())
         }
     }
 
@@ -32,6 +32,6 @@ export class Middleware
      */
     private loadMiddleware(middleware : MiddlewareInterface|MiddlewareErrorHandlerInterface)
     {
-        this.app.use(middleware.resolve);
+        this.app.use(middleware.resolve)
     }
 }

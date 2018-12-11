@@ -1,8 +1,8 @@
-"use strict";
+"use strict"
 
-import {AbstractController} from "./AbstractController";
+import {AbstractController} from "./AbstractController"
 
-let debug = require("debug")("Controller:HomeController");
+let debug = require("debug")("Controller:HomeController")
 
 /**
  * Class ResolverController
@@ -14,9 +14,9 @@ class HomeController extends AbstractController
      */
     public handleAction()
     {
-        this.response.send('Ok');
+        throw Error('fuck')
+        this.response.send('Ok')
     }
 }
 
-
-module.exports = HomeController;
+module.exports = HomeController

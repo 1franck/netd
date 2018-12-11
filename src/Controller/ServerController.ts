@@ -1,8 +1,8 @@
-"use strict";
+"use strict"
 
-import {AbstractController} from "./AbstractController";
+import {AbstractController} from "./AbstractController"
 
-let debug = require("debug")("Controller:ServerController");
+let debug = require("debug")("Controller:ServerController")
 
 /**
  * ServerController
@@ -17,7 +17,7 @@ class ServerController extends AbstractController
         this.response.status(200).json({
             "status": 200,
             "message": "alive"
-        });
+        })
     }
 
     /**
@@ -28,8 +28,8 @@ class ServerController extends AbstractController
         this.response.status(404).json({
             "status": 404,
             "message": "Page not found"
-        });
+        })
     }
 }
 
-module.exports = ServerController;
+module.exports = ServerController

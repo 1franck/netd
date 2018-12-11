@@ -1,13 +1,11 @@
-'use strict';
+'use strict'
 
-import {Request, Response} from "express";
-import {HttpError} from "../Util/Http/HttpError";
-import {ContainerInterface} from "../Util/Container/ContainerInterface";
+import {Request, Response} from "express"
+import {ContainerInterface} from "../Util/Container/ContainerInterface"
 
 export abstract class AbstractController
 {
-
-    private defaultErrorMessage = "Something broke";
+    private defaultErrorMessage = "Something broke"
 
     /**
      *
@@ -30,25 +28,20 @@ export abstract class AbstractController
      */
     protected sendError(err: any, code: number = 500)
     {
-        let json: {[k: string]: any} = {};
-        json.status = code;
+        let json: {[k: string]: any} = {}
+        json.status = code
 
-        if (err instanceof HttpError) {
-            json = {};
-            json.status = err.statusCode();
-            json.message = err.getMessage();
-            if (process.env.ENV === "dev") {
-                json.url = err.getUrl();
-            }
-        } else if(err instanceof Error) {
-            json.message = err.toString();
+        if(err instanceof Error) {
+            json.message = err.toString()
         }
 
-        if (process.env.ENV !== "dev") {
-            json.message = this.defaultErrorMessage;
+        if (process.env.ENV !== "development") {
+            json.message = this.defaultErrorMessage
+        } else {
+            json.error = err.stack
         }
 
-        this.response.status(code).json(json);
+        this.response.status(code).json(json)
     }
 
     /**
@@ -56,6 +49,6 @@ export abstract class AbstractController
      */
     protected send404()
     {
-        this.sendError("Page not found", 404);
+        this.sendError("Page not found", 404)
     }
-};
+}

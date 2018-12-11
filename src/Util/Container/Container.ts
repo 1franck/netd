@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-import {ContainerInterface} from "./ContainerInterface";
+import {ContainerInterface} from "./ContainerInterface"
 
 export class Container implements ContainerInterface
 {
-    private items: any = [];
+    private items: any = []
 
     /**
      * @param {string} key
@@ -12,26 +12,25 @@ export class Container implements ContainerInterface
      */
     public get(key: string)
     {
-        let item = this.items[key];
+        let item = this.items[key]
 
         if (item === undefined) {
-            throw Error('Container: "' + key + '" not found!');
+            throw Error('Container: "' + key + '" not found!')
         } else if(typeof item === "function") {
-            return item();
+            return item()
         }
 
-        return item;
+        return item
 
     }
 
     /**
-     *
      * @param {string} key
      * @param value
      */
     public add(key: string, value: any)
     {
-        this.items[key] = value;
+        this.items[key] = value
     }
 
     /**
@@ -40,6 +39,6 @@ export class Container implements ContainerInterface
      */
     public has(key: string): boolean
     {
-        return this.items.hasOwnProperty(key);
+        return this.items.hasOwnProperty(key)
     }
 }
