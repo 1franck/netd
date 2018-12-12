@@ -5,5 +5,5 @@ import * as compression from "compression"
 
 export const middlewares = [
     helmet, // for security headers
-    compression // for gzip compression
+    compression, // for gzip compression
 ]

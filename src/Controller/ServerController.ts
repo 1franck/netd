@@ -7,10 +7,7 @@ class ServerController extends AbstractController
     async statusAction() {
         this.response
             .status(200)
-            .json({
-            "status": 200,
-            "message": "alive"
-        })
+            .send("alive")
     }
 
     pageNotFoundAction() {
