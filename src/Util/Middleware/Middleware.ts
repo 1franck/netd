@@ -7,16 +7,9 @@ let debug = require("debug")("Util:Middleware:Middleware")
 
 export class Middleware
 {
-    /**
-     * @param app
-     */
     constructor(private app: any) {}
 
-    /**
-     * @param {string} middlewareName
-     */
-    public register(middlewareName: any)
-    {
+    register(middlewareName: any) {
         if (typeof middlewareName === "string" || middlewareName instanceof String) {
             debug("Registering middle " + middlewareName);
             const middleware = require("./../../" + middlewareName)
@@ -27,11 +20,7 @@ export class Middleware
         }
     }
 
-    /**
-     * @param middleware
-     */
-    private loadMiddleware(middleware : MiddlewareInterface|MiddlewareErrorHandlerInterface)
-    {
+    private loadMiddleware(middleware : MiddlewareInterface|MiddlewareErrorHandlerInterface) {
         this.app.use(middleware.resolve)
     }
 }

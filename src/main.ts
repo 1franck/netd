@@ -1,27 +1,18 @@
-'use strict'
-
 import * as express from "express"
 import * as debugModule from "debug"
 import multiThread from "./Util/MultiThread"
 import {config} from "../config"
-import services from "./services"
 import {Routing} from "./Util/Routing"
 import {Middleware} from "./Util/Middleware/Middleware"
-import {Container} from "./Util/Container/Container"
 
 let debug = debugModule("main"),
-    container = new Container(),
     app = express(),
-    routing = new Routing(app, container),
+    routing = new Routing(app),
     middleware = new Middleware(app)
 
-routing.setDefaultMethod("get")
 app.use(express.json())
 
 if (multiThread.isStarted()) {
-
-    // init services
-    services.setup(container)
 
     // register general middlewares
     config.middlewares.forEach((middlewareName: any) => {

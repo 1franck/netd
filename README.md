@@ -1,4 +1,4 @@
-# NodeJS 8 + Express 4 + TypeScript + Docker
+# NodeJS 10 + Express 4 + TypeScript 3 + Docker
 
   - manageable and simple configuration
   - easy and clean structure of controller / action
@@ -9,7 +9,7 @@
 ## Installation & Configuration
 
 1. Copy file `.env.dist` to `.env`
-2. Run `$ docker-compose build-project`
+2. Run `$ docker-compose install`
 3. And finally, run one of these to start your app:
   - run your app `.ts` files directly:
     > $ docker-compose up dev

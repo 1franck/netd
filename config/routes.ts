@@ -1,9 +1,11 @@
 "use strict";
 
-export const routes = [
+import {RouteDefinitionType} from "../src/Util/UtilType";
+
+export const routes: Array<RouteDefinitionType> = [
     {
         path: "/",
-        handler: "Controller/HomeController::handleAction",
+        handler: "Controller/HomeController",
     },
     {
         path: "/status",
